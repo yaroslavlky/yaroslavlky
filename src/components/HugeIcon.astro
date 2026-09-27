@@ -1,0 +1,17 @@
+---
+import type { ArrowUpRight01Icon } from '@hugeicons/core-free-icons';
+
+interface Props {
+  icon: typeof ArrowUpRight01Icon;
+  size?: number;
+  class?: string;
+}
+
+const { icon, size = 16, class: className } = Astro.props;
+---
+<svg class={className} width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+  {icon.map(([tag, attributes]) => {
+    const Element = tag;
+    return <Element {...attributes} />;
+  })}
+</svg>

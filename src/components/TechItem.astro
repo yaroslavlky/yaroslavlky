@@ -1,0 +1,14 @@
+---
+const { name } = Astro.props as { name: string };
+const iconName: Record<string, string> = {
+  TypeScript: 'typescript', React: 'react', Tanstack: 'tanstack',
+  'Vue 3': 'vuedotjs', Vue: 'vuedotjs', Nuxt: 'nuxt', Vite: 'vite',
+  'Tailwind CSS': 'tailwindcss', Docker: 'docker', 'GitHub Actions': 'githubactions',
+  Sentry: 'sentry', OpenTelemetry: 'opentelemetry',
+  'Rspack / Webpack': 'webpack', 'Node.js': 'nodedotjs',
+  PostgreSQL: 'postgresql', Git: 'git', Chromium: 'googlechrome',
+  'C++': 'cplusplus', Supabase: 'supabase',
+};
+const icon = iconName[name];
+---
+<span class="tech-item">{icon && <img src={`https://cdn.simpleicons.org/${icon}/aeb5b0`} alt="" aria-hidden="true" width="16" height="16" loading="lazy" />}<span>{name}</span></span>

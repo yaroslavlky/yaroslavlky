@@ -1,0 +1,20 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import HugeIcon from './HugeIcon.astro';
+import { ArrowUpRight01Icon } from '@hugeicons/core-free-icons';
+import type { Language } from '../i18n';
+import { assetPath, path, ui } from '../i18n';
+
+const { article, lang } = Astro.props as { article: CollectionEntry<'articles'>; lang: Language };
+const date = article.data.published.toLocaleDateString(lang === 'ru' ? 'ru-RU' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+const slug = article.id.replace(/^(en|ru)\//, '').replace(/\.md$/, '');
+---
+<article class:list={['article-card', { 'has-cover': article.data.cover }]}>
+  {article.data.cover && <a class="article-card-cover" href={path(lang, `articles/${slug}`)} aria-label={article.data.title}><img src={assetPath(article.data.cover)} alt="" loading="lazy" /></a>}
+  <div class="article-card-copy">
+    <div class="article-meta"><time datetime={article.data.published.toISOString()}>{date}</time><span aria-hidden="true">·</span><span>{article.data.tags.join(' / ')}</span></div>
+    <h3><a href={path(lang, `articles/${slug}`)}>{article.data.title}</a></h3>
+    <p>{article.data.description}</p>
+    <a class="text-link icon-link" href={path(lang, `articles/${slug}`)}>{ui[lang].readMore} <HugeIcon icon={ArrowUpRight01Icon} /></a>
+  </div>
+</article>

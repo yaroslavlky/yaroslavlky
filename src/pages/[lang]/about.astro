@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import HugeIcon from '../../components/HugeIcon.astro';
+import TechItem from '../../components/TechItem.astro';
+import { Mail01Icon, Call02Icon, GithubIcon, Location01Icon, TelegramIcon } from '@hugeicons/core-free-icons';
+import { assetPath, ui, type Language } from '../../i18n';
+import { about } from '../../data/about';
+export function getStaticPaths() { return [{ params: { lang: 'en' } }, { params: { lang: 'ru' } }]; }
+const lang = Astro.params.lang as Language;
+const t = ui[lang];
+const content = about[lang];
+---
+<BaseLayout lang={lang} title={t.aboutTitle} description={content.intro[0]}>
+  <header class="page-intro">
+    <h1>{t.aboutTitle}</h1>
+  </header>
+  <div class="about-layout">
+    <section class="about-section">
+      <div class="about-identity"><img class="portrait" src={assetPath('avatar.jpg')} alt={lang === 'ru' ? 'Ярослав Лукьянчук' : 'Yaroslav Lukyanchuk'} width="128" height="128" /><div><h2>{lang === 'ru' ? 'Ярослав Лукьянчук' : 'Yaroslav Lukyanchuk'}</h2><p>Software Engineer</p><a class="icon-link" href="https://t.me/nmequalmn" target="_blank" rel="noopener noreferrer"><HugeIcon icon={TelegramIcon} />t.me/nmequalmn</a></div></div>
+      {content.intro.map((paragraph) => <p>{paragraph}</p>)}
+      <nav class="about-contact" aria-label={t.contact}><a class="icon-link" href="mailto:meregodz@gmail.com"><HugeIcon icon={Mail01Icon} />meregodz@gmail.com</a><a class="icon-link" href="tel:+79787667749"><HugeIcon icon={Call02Icon} />+7 978 766-77-49</a><a class="icon-link" href="https://github.com/yaroslavlky" target="_blank" rel="noopener noreferrer"><HugeIcon icon={GithubIcon} />GitHub</a><span class="icon-link"><HugeIcon icon={Location01Icon} />{lang === 'ru' ? 'Санкт-Петербург' : 'Saint Petersburg'}</span></nav>
+    </section>
+    <section class="about-section"><h2>{content.interestsTitle}</h2><div class="about-paragraphs">{content.interests.map((paragraph) => <p>{paragraph}</p>)}</div></section>
+    <section class="about-section"><h2>{t.experience}</h2><div class="timeline">{content.jobs.map((job) => <article class="timeline-item"><div class="timeline-top"><div><h3>{job.company}</h3><p class="timeline-role">{job.role}</p></div><span>{job.period}</span></div><div class="job-points">{job.points.map((point) => <p>{point}</p>)}</div><p class="job-stack">{job.stack}</p></article>)}</div></section>
+    <section class="about-section"><h2>{content.stackTitle}</h2><div class="stack-lines">{[['TypeScript', 'React', 'Tanstack', 'Vue 3', 'Nuxt', 'Vite', 'Tailwind CSS'], ['Docker', 'GitHub Actions', 'Sentry', 'OpenTelemetry', 'Rspack / Webpack'], ['Node.js', 'PostgreSQL', 'Git']].map((group) => <div class="tech-line">{group.map((name) => <TechItem name={name} />)}</div>)}</div></section>
+    <section class="about-section"><h2>{content.educationTitle}</h2><div class="education-list">{content.education.map((item) => <div class="education-item"><div><h3>ITMO University</h3><p>{item.degree}</p></div><span>{item.period}</span></div>)}</div></section>
+  </div>
+</BaseLayout>

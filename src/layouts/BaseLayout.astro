@@ -1,0 +1,46 @@
+---
+import '../styles/global.css';
+import HugeIcon from '../components/HugeIcon.astro';
+import { GithubIcon, TelegramIcon, Globe02Icon } from '@hugeicons/core-free-icons';
+import type { Language } from '../i18n';
+import { assetPath, path, ui } from '../i18n';
+
+interface Props { lang: Language; title: string; description: string; cover?: string; alternate?: string }
+const { lang, title, description, cover, alternate } = Astro.props;
+const t = ui[lang];
+const currentPath = Astro.url.pathname;
+const otherLang = lang === 'en' ? 'ru' : 'en';
+const alternatePath = alternate ?? currentPath.replace(/\/(en|ru)\//, `/${otherLang}/`);
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    {cover && <meta property="og:image" content={new URL(assetPath(cover), Astro.site)} />}
+    <meta name="theme-color" content="#1d1b1b" />
+    <link rel="icon" href={assetPath('favicon.svg')} type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="canonical" href={new URL(currentPath, Astro.site)} />
+    <link rel="alternate" hreflang={otherLang} href={new URL(alternatePath, Astro.site)} />
+    <title>{title} · Yaroslav Lukyanchuk</title>
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="site-header">
+        <a class="brand" href={path(lang)} aria-label="Yaroslav Lukyanchuk — home">Yaroslav Lukyanchuk</a>
+        <nav class="main-nav" aria-label="Main navigation">
+          <a href={path(lang)} aria-current={currentPath === path(lang) ? 'page' : undefined}>{t.home}</a>
+          <a href={path(lang, 'articles')} aria-current={currentPath.includes('/articles/') ? 'page' : undefined}>{t.articles}</a>
+          <a href={path(lang, 'about')} aria-current={currentPath === path(lang, 'about') ? 'page' : undefined}>{t.about}</a>
+        </nav>
+        <a class="lang-switch icon-link" href={alternatePath} aria-label={`${t.language}: ${otherLang.toUpperCase()}`}><HugeIcon icon={Globe02Icon} />{otherLang.toUpperCase()}</a>
+      </header>
+      <main><slot /></main>
+      <footer class="site-footer"><div class="footer-links"><a class="icon-link" href="https://github.com/yaroslavlky" target="_blank" rel="noopener noreferrer"><HugeIcon icon={GithubIcon} />GitHub</a><a class="icon-link" href="https://t.me/nmequalmn" target="_blank" rel="noopener noreferrer"><HugeIcon icon={TelegramIcon} />Telegram</a></div></footer>
+    </div>
+  </body>
+</html>

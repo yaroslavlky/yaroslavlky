@@ -1,0 +1,22 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import HugeIcon from '../../../components/HugeIcon.astro';
+import { ArrowLeft01Icon } from '@hugeicons/core-free-icons';
+import { assetPath, path, ui, type Language } from '../../../i18n';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('articles', ({ data }) => !data.draft);
+  return articles.map((article) => ({ params: { lang: article.data.language, slug: article.id.replace(/^(en|ru)\//, '').replace(/\.md$/, '') }, props: { article } }));
+}
+const { article } = Astro.props;
+const lang = Astro.params.lang as Language;
+const { Content } = await render(article);
+const date = article.data.published.toLocaleDateString(lang === 'ru' ? 'ru-RU' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+const otherLang = lang === 'en' ? 'ru' : 'en';
+const sibling = (await getCollection('articles', ({ data }) => !data.draft && data.language === otherLang)).find((item) => item.id.replace(/^(en|ru)\//, '') === article.id.replace(/^(en|ru)\//, ''));
+const alternate = sibling ? undefined : path(otherLang, 'articles');
+---
+<BaseLayout lang={lang} title={article.data.title} description={article.data.description} cover={article.data.cover} alternate={alternate}>
+  <article class="post"><a class="back-link icon-link" href={path(lang, 'articles')}><HugeIcon icon={ArrowLeft01Icon} />{ui[lang].backArticles}</a><header class="post-header"><div class="article-meta"><time datetime={article.data.published.toISOString()}>{date}</time><span aria-hidden="true">·</span><span>{article.data.tags.join(' / ')}</span></div><h1>{article.data.title}</h1><p>{article.data.description}</p></header>{article.data.cover && <img class="post-cover" src={assetPath(article.data.cover)} alt={lang === 'ru' ? 'Первый слайд доклада «Оптимизация покадровой перемотки в Chromium»' : 'Title slide of the talk on frame-by-frame seeking in Chromium'} /> }<div class="prose"><Content /></div></article>
+</BaseLayout>
