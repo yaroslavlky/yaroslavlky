@@ -1,16 +1,18 @@
-## Hi there 👋
+# Hi, I'm Yaroslav 👋
 
-<!--
-**yaroslavlky/yaroslavlky** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+**Software Engineer · Frontend / Full-Stack**
 
-Here are some ideas to get you started:
+I build web products and engineering infrastructure, with a focus on **performance, reliability, and developer experience**.
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+`TypeScript` · `React` · `Vue` · `Nuxt` · `Node.js` · `PostgreSQL` · `Docker` · `Kubernetes`
+
+### Featured
+
+🔬 **[Chromium Frame Seek Optimization](https://github.com/yaroslavlky/chromium-frame-seek-optimization)**  
+
+### What I work on
+
+- ⚡ Web & browser performance
+- 🏗️ Frontend and full-stack architecture
+- 🔧 CI/CD, testing & developer tooling
+- 🔭 Production observability & reliability
